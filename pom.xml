@@ -8,6 +8,15 @@
     <artifactId>trello-creator-build</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>Trello Creator Build</name>
+    <packaging>pom</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <modules>
+        <module>trello-bridge</module>
+    </modules>
 
     <build>
         <plugins>
@@ -21,7 +30,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <release>1.8</release>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
