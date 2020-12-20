@@ -19,13 +19,14 @@ Feature: Create Card
     And the title is randomized with the pattern "bug-{word}-{number}"
 
   Scenario Outline: Create a generic task
-    Given I have a generic task
+    Given I have a <category> task
     When I create the card
-    And I provide the title "Excample" and a label: <category>
+    And I provide the title "Excample"
     Then Trello creates the card to the "To Do" list
+    And it is labelled with <label>
 
     Examples:
-      |category     |
-      |"Maintenance"|
-      |"Reasearch"  |
-      |"Test"       |
+      |category     | label       |
+      |"maintenance"|"Maintenance"|
+      |"reasearch"  |"Reasearch"  |
+      |"test"       |"Test"       |
