@@ -1,12 +1,13 @@
 package com.josegc789.trellobridge.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import org.springframework.util.StringUtils;
+import java.util.HashMap;
+import java.util.Map;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 public class Task extends Card {
     private final Categories category;
@@ -18,7 +19,15 @@ public class Task extends Card {
         this.category = category;
     }
 
-    private enum Categories {
+    @Override
+    public Map<String, String> toPayload() {
+        Map<String, String> payload = new HashMap<>();
+        payload.put("name", getTitle());
+        payload.put("label", StringUtils.capitalize(category.value));
+        return payload;
+    }
+
+    public enum Categories {
         MAINTENANCE("maintenance"),
         RESEARCH("research"),
         TEST("test");
