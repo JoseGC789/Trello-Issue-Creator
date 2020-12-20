@@ -8,7 +8,6 @@ import io.cucumber.java.en.When;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.mockito.ArgumentCaptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.web.client.RestOperations;
 import java.util.HashMap;
@@ -18,19 +17,21 @@ import static io.restassured.RestAssured.given;
 import static java.lang.String.join;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class CreateCardSteps{
 
-    @Autowired
-    private RestOperations template;
-
+    private final RestOperations template;
+    private final Map<String, String> requestBody = new HashMap<>();
     @LocalServerPort
     private int port;
     private ArgumentCaptor<String> uri;
 
-    private Map<String, String> requestBody = new HashMap<>();
+    public CreateCardSteps(RestOperations template) {
+        this.template = template;
+    }
 
     @Given("I have a task of type issue")
     public void iHaveATaskOfTypeIssue() {
@@ -47,7 +48,7 @@ public class CreateCardSteps{
                 .body(requestBody)
                 .when()
                 .post();
-        verify(template).postForObject(uri.capture(), any(), any());
+        verify(template, times(1)).postForObject(uri.capture(), any(), any());
     }
 
     @And("I provide the title and description {string}")

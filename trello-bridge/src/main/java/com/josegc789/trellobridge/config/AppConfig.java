@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 
 @Configuration
 @Slf4j
-@Profile("live")
 public class AppConfig {
 
     @Value("${trello.board}")
@@ -31,6 +30,7 @@ public class AppConfig {
     private String key;
 
     @Bean
+    @Profile("live")
     public RestOperations template(){
         return new RestTemplateBuilder().build();
     }
@@ -76,6 +76,7 @@ public class AppConfig {
             List[] payload = operations.getForObject(builder.toUriString(), List[].class);
             for (List list: Objects.requireNonNull(payload)) {
                 if("To Do".equals(list.getName())){
+
                     return list.getId();
                 }
             }

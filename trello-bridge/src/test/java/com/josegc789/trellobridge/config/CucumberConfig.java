@@ -1,40 +1,41 @@
 package com.josegc789.trellobridge.config;
 
-import org.springframework.boot.test.mock.mockito.MockBean;
+import com.josegc789.trellobridge.bridge.model.Label;
+import com.josegc789.trellobridge.bridge.model.List;
+import com.josegc789.trellobridge.bridge.model.Member;
+import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.client.RestOperations;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.client.RestTemplate;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 
 @Configuration
 @Primary
 public class CucumberConfig {
 
-    @MockBean
-    protected RestOperations mocked;
-
-    @Bean("members")
-    public List<String> members(){
-        return Collections.singletonList("Member1");
-    }
-
-    @Bean("labels")
-    public Map<String, String> labels(){
-        Map<String, String> labels = new HashMap<>();
-        labels.put("Bug","Bug1");
-        labels.put("Issue","Issue1");
-        labels.put("Maintenance","Maintenance1");
-        labels.put("Research","Research1");
-        labels.put("Test","Test1");
-        return labels;
-    }
-
-    @Bean("list")
-    public String lists(){
-        return "To Do";
+    @Bean
+    @Profile("test")
+    public RestOperations mocked(){
+        List[] lists = new List[]{new List("To Do","To Do")};
+        Member[] members = new Member[]{new Member("Member1")};
+        Label[] labels = new Label[]
+                {new Label("Bug1","Bug","red"),
+                        new Label("Issue1","Issue","red"),
+                        new Label("Maintenance1","Maintenance","red"),
+                        new Label("Research1","Research","red"),
+                        new Label("Test1","Test","red")};
+        RestOperations mocked = Mockito.mock(RestTemplate.class);
+        when(mocked.getForObject(any(String.class), eq(Member[].class)))
+                .thenReturn(members);
+        when(mocked.getForObject(any(String.class), eq(List[].class)))
+                .thenReturn(lists);
+        when(mocked.getForObject(any(String.class), eq(Label[].class)))
+                .thenReturn(labels);
+        return mocked;
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 public class ContextLoaderStep {
 
     @Given("the App is running")
-    public void theServiceIsRunningAndAbleToReceiveAndProcessRequests() {
+    public void setup() {
         // Dummy method so cucumber will recognize this class as glue
         // and use its context configuration.
     }
