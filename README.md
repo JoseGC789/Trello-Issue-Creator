@@ -10,8 +10,9 @@
     <li>Makefiles</li>
 </ul>
 <h2>How to run</h2>
-<p>In order to run you first have to obtain your Trello security token and key in order to access your account and
+<p>In order to run, first have to obtain your Trello security token and key in order to access your account and
  boards. After that you have to retrieve the id of the board in which you wish to create new tickets.</p>
+<p>Follow this link to get both of these requirements: https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/</p>
 <p>Second you'll have to create the board in which you wish to create new issues, create the list "To Do" (in case it 
 isn't already created) and create the labels "Research", "Maintenance", "Bug", "Test" and "Issue" verbatim or the app
  might not work as intended</p>
